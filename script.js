@@ -11,10 +11,12 @@ var player = {
     stamina: 7,
     potions: 2,
     defeated: 0,
+    roll: 5,
 
     attack: function() {
-        diceRoll();
+        var playerRoll = diceRoll();
         this.stamina--;
+        return playerRoll;
     },
 
     speedAttack: function() {
@@ -44,9 +46,67 @@ var player = {
 
 };
 
+var enemyCount = 3;
+var bodyCount = 0;
+
 var orc = {
-    difficulty: 2;
+    difficulty: 2,
+    status: 'alive',
+    battle: function() {
+        if (player.attack() > this.difficulty) {
+            console.log('enemy defeated');
+            enemyCount--;
+            bodyCount++;
+        }
+    }
 }
+
+
+var orc2 = {
+    difficulty: 3,
+    status: 'alive',
+    battle: function() {
+        if (player.attack() > this.difficulty) {
+            console.log('enemy defeated');
+            enemyCount--;
+            bodyCount++;
+        }
+    }
+}
+
+var orc3 = {
+    difficulty: 4,
+    status: 'alive',
+    battle: function() {
+        if (player.attack() > this.difficulty) {
+            console.log('enemy defeated');
+            enemyCount--;
+            bodyCount++;
+        }
+    }
+}
+
+orc.battle();
+orc2.battle();
+orc3.battle();
+
+function scoreCount() {
+    var score = player.stamina + player.health + (bodyCount * 3);
+    return score;
+}
+
+console.log(scoreCount());
+
+// var diceTest = console.log("your roll is " + player.attack());
+
+// var diceTest2 = player.attack();
+// console.log(diceTest2);
+
+// if (diceTest2 > orc.difficulty) {
+//     console.log("enemy defeated!")
+// } else {
+//     console.log("enemy is still alive!");
+// }
 
 // console.log(player.attack());
 // console.log(player.stamina);
@@ -56,5 +116,5 @@ var orc = {
 // console.log(player.restoreHealth());
 // console.log("health is" + player.health);
 
-console.log(player.restoreStamina());
-console.log("stamina is " + player.stamina);
+// console.log(player.restoreStamina());
+// console.log("stamina is " + player.stamina);
