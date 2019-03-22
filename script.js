@@ -55,7 +55,7 @@ var player = {
     checkDead: function() {
         if (this.health === 0) {
             alert('YOU DIED!');
-            console.log(scoreCount());
+            alert('you scored ' + scoreCount() + ' point!');
         }
     }
 
@@ -74,6 +74,7 @@ var orc = {
             player.defeated++;
         } else {
             player.health--;
+            player.checkDead();
         }
     },
 
@@ -85,6 +86,7 @@ var orc = {
             player.defeated++;
         } else {
             player.health--;
+            player.checkDead();
         }
     }
 }
@@ -101,6 +103,7 @@ var orc2 = {
             player.defeated++;
         } else {
             player.health--;
+            player.checkDead();
         }
     },
 
@@ -164,6 +167,13 @@ function playerStatsWeb() {
 }
 
 playerStatsWeb();
+
+var attackButton = document.getElementById('attack-button');
+
+attackButton.addEventListener('click', function() {
+    orc.attack();
+    playerStatsWeb();
+})
 
 // var diceTest = console.log("your roll is " + player.attack());
 
