@@ -5,10 +5,63 @@
 }
 
 body {
-	text-align: center;
 	font-size: 18px;
+	background-color: black;
 }
 
-h2 {
+h1,h2 {
 	font-size: 64px;
+	color: red;
+	padding: 18px;
+	text-align: center;
+}
+
+h4 {
+	color: white;
+	text-align: center;
+}
+
+p {
+	color: white;
+}
+
+.monster-screen, .player-screen, .battle-stats {
+	border: 5px solid white;
+}
+
+.monster-screen {
+	background-image: url(images/dungeon-bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+  background-size: fill;
+  display: flex;
+  flex-direction: column;
+}
+
+.monster-screen h4 {
+	position: relative;
+	top: 32px;
+}
+
+.monster-screen img {
+	margin: 0 auto;
+}
+
+.player-icon {
+	text-align: center;
+	background-image: url(images/dungeon-bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+  background-size: fill;
+  margin: 0 -16px 8px -16px;
+}
+
+/*.player-screen {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}*/
+
+.player-screen img {
+	max-width: 200px;
 }
