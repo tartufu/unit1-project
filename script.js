@@ -14,7 +14,7 @@ function scoreCount() {
 
 var player = {
     name: "player",
-    health: 3,
+    health: 5,
     stamina: 7,
     potions: 2,
     defeated: 0,
@@ -151,6 +151,19 @@ orc3.speedAttack();
 
 console.log(scoreCount());
 console.log(player);
+
+function playerStatsWeb() {
+  var playerHealth = document.getElementById('player-health');
+  playerHealth.innerHTML = "Health: " + player.health;
+
+  var playerStamina = document.getElementById('player-stamina');
+  playerStamina.innerHTML = "Stamina: " + player.stamina;
+
+  var playerPots = document.getElementById('player-potion');
+  playerPots.innerHTML = "Potions: " + player.potions;
+}
+
+playerStatsWeb();
 
 // var diceTest = console.log("your roll is " + player.attack());
 
