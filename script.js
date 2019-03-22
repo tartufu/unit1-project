@@ -5,13 +5,20 @@ function diceRoll() {
     //D6 Roll essentially. it rolls between 0 to 5, therefore you add a +1 to result;
 }
 
+
+function scoreCount() {
+    var score = player.stamina + player.health + (player.defeated * 3);
+    return score;
+}
+
+
 var player = {
     name: "player",
     health: 3,
     stamina: 7,
     potions: 2,
     defeated: 0,
-    roll: 5,
+    score: 0,
 
     attack: function() {
         var playerRoll = diceRoll();
@@ -20,8 +27,9 @@ var player = {
     },
 
     speedAttack: function() {
-        (2 * diceRoll());
+        var playerRoll = (2 * diceRoll());
         this.stamina-=2;
+        return playerRoll;
     },
 
     restoreHealth: function() {
@@ -42,60 +50,107 @@ var player = {
         if (this.stamina > 7) {
             this.stamina = 7;
         } //this sets a max cap on stamina
+    },
+
+    checkDead: function() {
+        if (this.health === 0) {
+            alert('YOU DIED!');
+            console.log(scoreCount());
+        }
     }
 
 };
 
 var enemyCount = 3;
-var bodyCount = 0;
 
 var orc = {
-    difficulty: 2,
+    difficulty: 13,
     status: 'alive',
-    battle: function() {
-        if (player.attack() > this.difficulty) {
+    attack: function() {
+        if (player.attack() >= this.difficulty) {
             console.log('enemy defeated');
+            this.status = 'dead';
             enemyCount--;
-            bodyCount++;
+            player.defeated++;
+        } else {
+            player.health--;
+        }
+    },
+
+    speedAttack: function() {
+         if (player.speedAttack() >= this.difficulty) {
+            console.log('enemy defeated');
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+        } else {
+            player.health--;
         }
     }
 }
 
 
 var orc2 = {
-    difficulty: 3,
+    difficulty: 13,
     status: 'alive',
-    battle: function() {
-        if (player.attack() > this.difficulty) {
+    attack: function() {
+        if (player.attack() >= this.difficulty) {
             console.log('enemy defeated');
+            this.status = 'dead';
             enemyCount--;
-            bodyCount++;
+            player.defeated++;
+        } else {
+            player.health--;
+        }
+    },
+
+    speedAttack: function() {
+         if (player.speedAttack() >= this.difficulty) {
+            console.log('enemy defeated');
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+        } else {
+            player.health--;
         }
     }
 }
 
 var orc3 = {
-    difficulty: 4,
+    difficulty: 13,
     status: 'alive',
-    battle: function() {
-        if (player.attack() > this.difficulty) {
+
+    attack: function() {
+        if (player.attack() >= this.difficulty) {
             console.log('enemy defeated');
+            this.status = 'dead';
             enemyCount--;
-            bodyCount++;
+            player.defeated++;
+        } else {
+            player.health--;
+        }
+    },
+
+    speedAttack: function() {
+         if (player.speedAttack() >= this.difficulty) {
+            console.log('enemy defeated');
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+        } else {
+            player.health--;
+            player.checkDead();
         }
     }
+
 }
 
-orc.battle();
-orc2.battle();
-orc3.battle();
-
-function scoreCount() {
-    var score = player.stamina + player.health + (bodyCount * 3);
-    return score;
-}
+orc.attack();
+orc2.attack();
+orc3.speedAttack();
 
 console.log(scoreCount());
+console.log(player);
 
 // var diceTest = console.log("your roll is " + player.attack());
 
