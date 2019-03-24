@@ -19,11 +19,13 @@ var player = {
     potions: 2,
     defeated: 0,
     score: 0,
+    roll: 0,
 
     attack: function() {
-        var playerRoll = diceRoll();
+        player.roll = diceRoll();
         this.stamina--;
-        return playerRoll;
+        return player.roll;
+        console.log(`diceroll is ${player.roll}`);
     },
 
     speedAttack: function() {
@@ -53,9 +55,21 @@ var player = {
     },
 
     checkDead: function() {
-        if (this.health === 0) {
+        if (this.health <= 0) {
             alert('YOU DIED!');
             alert('you scored ' + scoreCount() + ' point!');
+            var youDied = document.getElementById('title');
+            youDied.innerHTML = "YOU DIED";
+            youDied.style.fontSize = "100px";
+            youDied.style.position = "relative";
+            youDied.style.top = "300px";
+            youDied.style.zIndex = "5";
+        }
+    },
+
+    checkStamina: function() {
+        if (this.stamina <= 0) {
+            alert('You dont have any stamina left!');
         }
     }
 
@@ -63,10 +77,16 @@ var player = {
 
 var enemyCount = 3;
 
-var orc = {
-    difficulty: 13,
-    status: 'alive',
-    attack: function() {
+
+
+class Monster {
+    constructor(name,difficulty) {
+        this.name = name;
+        this.difficulty = difficulty;
+        status = 'alive';
+    }
+
+    attack() {
         if (player.attack() >= this.difficulty) {
             console.log('enemy defeated');
             this.status = 'dead';
@@ -76,9 +96,9 @@ var orc = {
             player.health--;
             player.checkDead();
         }
-    },
+    }
 
-    speedAttack: function() {
+    speedAttack() {
          if (player.speedAttack() >= this.difficulty) {
             console.log('enemy defeated');
             this.status = 'dead';
@@ -91,69 +111,31 @@ var orc = {
     }
 }
 
+const goblin = new Monster('goblin', 4);
+console.log(goblin);
+goblin.attack();
+console.log(enemyCount);
+console.log(player.health);
+console.log(player.roll);
+console.log(player.attack());
 
-var orc2 = {
-    difficulty: 13,
-    status: 'alive',
-    attack: function() {
-        if (player.attack() >= this.difficulty) {
-            console.log('enemy defeated');
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-        } else {
-            player.health--;
-            player.checkDead();
-        }
-    },
 
-    speedAttack: function() {
-         if (player.speedAttack() >= this.difficulty) {
-            console.log('enemy defeated');
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-        } else {
-            player.health--;
-        }
-    }
-}
-
-var orc3 = {
-    difficulty: 13,
-    status: 'alive',
-
-    attack: function() {
-        if (player.attack() >= this.difficulty) {
-            console.log('enemy defeated');
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-        } else {
-            player.health--;
-        }
-    },
-
-    speedAttack: function() {
-         if (player.speedAttack() >= this.difficulty) {
-            console.log('enemy defeated');
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-        } else {
-            player.health--;
-            player.checkDead();
-        }
-    }
-
-}
+const orc = new Monster('orc', 13);
+const orc2 = new Monster('orc2', 3);
+const orc3 = new Monster('orc3', 14);
 
 orc.attack();
+console.log(player);
 orc2.attack();
+console.log(player);
 orc3.speedAttack();
+console.log(player);
 
 console.log(scoreCount());
 console.log(player);
+
+var enemyArray = [goblin, orc, orc2, orc3];
+console.log(enemyArray);
 
 function playerStatsWeb() {
   var playerHealth = document.getElementById('player-health');
@@ -164,35 +146,35 @@ function playerStatsWeb() {
 
   var playerPots = document.getElementById('player-potion');
   playerPots.innerHTML = "Potions: " + player.potions;
-}
+} //this is run after every scene to update the screen.
 
 playerStatsWeb();
 
-var attackButton = document.getElementById('attack-button');
+var attackButton = document.getElementById('atk-btn');
 
 attackButton.addEventListener('click', function() {
     orc.attack();
     playerStatsWeb();
 })
 
-// var diceTest = console.log("your roll is " + player.attack());
+var speedAttackButton = document.getElementById('spd-atk-btn')
 
-// var diceTest2 = player.attack();
-// console.log(diceTest2);
+speedAttackButton.addEventListener('click', function(){
+    player.checkStamina();
+    orc3.speedAttack();
+    playerStatsWeb();
+})
 
-// if (diceTest2 > orc.difficulty) {
-//     console.log("enemy defeated!")
-// } else {
-//     console.log("enemy is still alive!");
-// }
+var potionButton = document.getElementById('pot-btn');
 
-// console.log(player.attack());
-// console.log(player.stamina);
-// console.log(player.speedAttack());
-// console.log("stamina is " + player.stamina);
+potionButton.addEventListener('click', function(){
+    player.restoreHealth();
+    playerStatsWeb();
+});
 
-// console.log(player.restoreHealth());
-// console.log("health is" + player.health);
+var staminaButton = document.getElementById('stam-btn');
 
-// console.log(player.restoreStamina());
-// console.log("stamina is " + player.stamina);
+staminaButton.addEventListener('click', function() {
+    player.restoreStamina();
+    playerStatsWeb();
+});
