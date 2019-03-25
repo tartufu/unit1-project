@@ -8,13 +8,18 @@ body {
 	font-size: 18px;
 	background-color: black;
 	font-family: 'Germania One', cursive;
+	background-image: url(images/brick-bg.jpg);
+	background-repeat: repeat;
+	background-position: center;
+  background-size: fill;
 }
 
 h1,h2 {
 	font-size: 64px;
-	color: red;
+	color: black;
 	padding: 18px;
 	text-align: center;
+	text-shadow: 2px 2px red;
 }
 
 h4 {
@@ -24,6 +29,8 @@ h4 {
 
 p {
 	color: white;
+	font-family: 'Lalezar', cursive;
+
 }
 
 button:hover {
@@ -37,6 +44,7 @@ button:hover {
 
 .monster-screen, .player-screen, .battle-stats {
 	border: 5px solid white;
+	background-color: black;
 }
 
 .monster-screen {

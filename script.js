@@ -1,4 +1,6 @@
 
+
+// ------------ MECHANICS SECTION ----------///
 function diceRoll() {
     return (Math.floor(Math.random() * Math.floor(6)) + 1);
     //D6 Roll essentially. it rolls between 0 to 5, therefore you add a +1 to result;
@@ -9,6 +11,16 @@ function scoreCount() {
     battleResult.innerHTML = `Your total score is ${score}!`
     return score;
 } // this is called at the end of the game or when player.health === 0
+
+
+function checkEnemies() {
+    remainingEnemies = enemyArray.filter(function (arr) {
+        if (arr.status === 'alive') {
+            return arr
+        } ;
+    }); // this filters out enemies that are dead.
+}
+// -------- END OF MECHANICS SECTION ---------- //
 
 
 //--------------- PLAYER CHARACTER SECTION ------------- //
@@ -97,7 +109,7 @@ class Monster {
         this.name = name;
         this.difficulty = difficulty;
         this.image = image;
-        status = 'alive';
+        this.status = 'alive';
     }
 
     attack() {
@@ -106,6 +118,7 @@ class Monster {
             this.status = 'dead';
             enemyCount--;
             player.defeated++;
+            spawnMonster();
         } else {
             player.health--;
             player.checkDead();
@@ -118,6 +131,7 @@ class Monster {
             this.status = 'dead';
             enemyCount--;
             player.defeated++;
+            spawnMonster();
         } else {
             player.health--;
             player.checkDead();
@@ -142,10 +156,16 @@ const tortoise2 = new Monster('Tortoise', 5, "images/tortoise.png");
 
 
 var enemyArray = [goblin, goblin2, orc, orc2, minotaur, minotaur2, mimic, mimic2, slime, slime2, tortoise, tortoise2];
-console.log(enemyArray);
-var currentEnemy = enemyArray[Math.floor(Math.random() * enemyArray.length)];
-console.log(currentEnemy);
 var enemyCount = enemyArray.length;
+
+let remainingEnemies = enemyArray.filter(function (arr) {
+    if (arr.status === 'alive') {
+        return arr
+    } ;
+}); // this filters out enemies that are dead.
+
+var currentEnemy = remainingEnemies[Math.floor(Math.random() * remainingEnemies.length)];
+// chooses from monsters that are still alive.
 
 //---------------END OF MONSTER SECTION------------------//
 
@@ -165,14 +185,14 @@ playerStatsWeb();
 
 var attackButton = document.getElementById('atk-btn');
 attackButton.addEventListener('click', function() {
-    orc.attack();
+    currentEnemy.attack();
     playerStatsWeb();
 })
 
 var speedAttackButton = document.getElementById('spd-atk-btn')
 speedAttackButton.addEventListener('click', function(){
     player.checkStamina();
-    orc.speedAttack();
+    currentEnemy.speedAttack();
     playerStatsWeb();
 })
 
@@ -196,8 +216,17 @@ fleeButton.addEventListener('click', function() {
 
 
 // GAME STARTING //
-var monsterName = document.getElementById('monster-name');
-var monsterImage = document.getElementById('monster-image');
 
-monsterName.innerHTML = currentEnemy.name;
-monsterImage.src = currentEnemy.image;
+function spawnMonster() {
+    var monsterName = document.getElementById('monster-name');
+    var monsterImage = document.getElementById('monster-image');
+    checkEnemies();
+    currentEnemy = remainingEnemies[Math.floor(Math.random() * remainingEnemies.length)]; // this refactors the variable so that it only chooses from the new filtered array.
+    console.log(remainingEnemies);
+    monsterName.innerHTML = currentEnemy.name;
+    monsterImage.src = currentEnemy.image
+}
+
+spawnMonster();
+
+console.log(currentEnemy);
