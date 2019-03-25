@@ -32,7 +32,7 @@ var player = {
     name: "player",
     health: 5,
     stamina: 7,
-    potions: 2,
+    potions: 3,
     defeated: 0,
     score: 0,
     roll: 0,
@@ -254,6 +254,8 @@ function spawnMonster() {
     monsterImage.src = currentEnemy.image
     if (remainingEnemies.length === 1) {
     monsterDescription.innerHTML = "Dungeon Cleared!";
+    monsterName.innerHTML = "Congrats!";
+    monsterImage.src = "images/chest.png"
     scoreCount();
     } // spawn monster is called each time a monster is killed.
 }
