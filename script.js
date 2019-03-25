@@ -78,6 +78,8 @@ var player = {
 
 // ---------------MONSTER SECTIION------------- //
 
+var battleResult = document.getElementById('battle-result');
+
 class Monster {
     constructor(name,difficulty, image) {
         this.name = name;
@@ -88,7 +90,7 @@ class Monster {
 
     attack() {
         if (player.attack() >= this.difficulty) {
-            console.log('enemy defeated');
+            battleResult.innerHTML = `${this.name} defeated!`;
             this.status = 'dead';
             enemyCount--;
             player.defeated++;
@@ -100,7 +102,7 @@ class Monster {
 
     speedAttack() {
          if (player.speedAttack() >= this.difficulty) {
-            console.log('enemy defeated');
+            battleResult.innerHTML = `${this.name} defeated!`;
             this.status = 'dead';
             enemyCount--;
             player.defeated++;
@@ -158,7 +160,7 @@ attackButton.addEventListener('click', function() {
 var speedAttackButton = document.getElementById('spd-atk-btn')
 speedAttackButton.addEventListener('click', function(){
     player.checkStamina();
-    orc3.speedAttack();
+    orc.speedAttack();
     playerStatsWeb();
 })
 

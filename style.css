@@ -26,6 +26,15 @@ p {
 	color: white;
 }
 
+button:hover {
+	background-color: blue;
+}
+
+.battle-stats p {
+	padding-top: 4px;
+	text-align: center;
+}
+
 .monster-screen, .player-screen, .battle-stats {
 	border: 5px solid white;
 }
