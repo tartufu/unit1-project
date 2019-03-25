@@ -27,3 +27,6 @@ Potion mechanic -> drinks a poition and regain D6 + 2 stamina.
 
 
 Agile Principle -> get the game logic working by working on it on JS and console.log results to test if working. Start with character, health, stamina and 3 monsters first. 
+
+
+http://www.musicnote-world.com/   ---> source for background music
