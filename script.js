@@ -47,20 +47,20 @@ var player = {
             this.health--;
             return player.roll;
             player.checkDead();
-        }
+        } // if there's not enough stam, player uses health as resource
     },
 
     speedAttack: function() {
         if (player.stamina > 1 ) {
-            playerRoll = (2 * diceRoll());
+            player.roll = (2 * diceRoll());
             this.stamina-=2;
-            return playerRoll;
+            return player.roll;
         } else {
-            playerRoll = (2 * diceRoll());
+            player.roll = (2 * diceRoll());
             this.health-=2;
-            return playerRoll;
+            return player.rolll;
             player.checkDead();
-        }
+        } // if there's not enough stam, player uses health as resource
 
     }, //uses 2 stamina to roll 2D6
 
@@ -104,14 +104,8 @@ var player = {
             youDied.style.top = "300px";
             youDied.style.zIndex = "5";
             scoreCount();
-        }
+        } // this is called after every event where health is deducted, it stops the game.
     },
-
-    checkStamina: function() {
-        if (this.stamina <= 0) {
-            alert('You dont have any stamina left!');
-        }
-    }
 
 };
 // -------------- END OF PLAYER CHARACTER SECTION --------------//
@@ -122,6 +116,7 @@ var player = {
 var monsterDescription = document.getElementById('monster-ability');
 var battleResult = document.getElementById('battle-result');
 
+// this is the blue print for the monsters in the dungeon
 class Monster {
     constructor(name,difficulty, image) {
         this.name = name;
@@ -132,12 +127,13 @@ class Monster {
 
     attack() {
         if (player.attack() >= this.difficulty) {
-            battleResult.innerHTML = `${this.name} defeated! A new monster blocks your path!`;
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
             this.status = 'dead';
             enemyCount--;
             player.defeated++;
             spawnMonster();
         } else {
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
             player.health--;
             player.checkDead();
         }
@@ -145,12 +141,13 @@ class Monster {
 
     speedAttack() {
          if (player.speedAttack() >= this.difficulty) {
-            battleResult.innerHTML = `${this.name} defeated! A new monster blocks your path!`;
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
             this.status = 'dead';
             enemyCount--;
             player.defeated++;
             spawnMonster();
         } else {
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
             player.health--;
             player.checkDead();
         }
@@ -170,7 +167,6 @@ const slime = new Monster('Slime', 6, "images/slime.png");
 const slime2 = new Monster('Slime2', 6, "images/slime.png");
 const tortoise = new Monster('Tortoise', 5, "images/tortoise.png");
 const tortoise2 = new Monster('Tortoise2', 5, "images/tortoise.png");
-
 
 
 var enemyArray = [goblin, goblin2, orc, orc2, minotaur, minotaur2, mimic, mimic2, slime, slime2, tortoise, tortoise2];
@@ -241,7 +237,7 @@ fleeButton.addEventListener('click', function() {
 //------------END OF BUTTONS SECTION------------------- //
 
 
-// GAME STARTING //
+//------------GAME STARTING ------------//
 
 function spawnMonster() {
     var monsterName = document.getElementById('monster-name');
@@ -254,10 +250,7 @@ function spawnMonster() {
     if (remainingEnemies.length === 1) {
     monsterDescription.innerHTML = "Dungeon Cleared!";
     scoreCount();
-    }
+    } // spawn monster is called each time a monster is killed.
 }
 
 spawnMonster();
-
-console.log(currentEnemy);
-console.log(remainingEnemies);

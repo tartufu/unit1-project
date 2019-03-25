@@ -88,3 +88,10 @@ button:hover {
 .player-screen img {
 	max-width: 200px;
 }
+
+.player-info {
+	display: flex;
+	justify-content: space-around;
+	position: relative;
+	top: 16px;
+}
