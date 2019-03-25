@@ -114,7 +114,7 @@ class Monster {
 
     attack() {
         if (player.attack() >= this.difficulty) {
-            battleResult.innerHTML = `${this.name} defeated!`;
+            battleResult.innerHTML = `${this.name} defeated! A new monster blocks your path!`;
             this.status = 'dead';
             enemyCount--;
             player.defeated++;
@@ -127,7 +127,7 @@ class Monster {
 
     speedAttack() {
          if (player.speedAttack() >= this.difficulty) {
-            battleResult.innerHTML = `${this.name} defeated!`;
+            battleResult.innerHTML = `${this.name} defeated! A new monster blocks your path!`;
             this.status = 'dead';
             enemyCount--;
             player.defeated++;
@@ -141,17 +141,17 @@ class Monster {
 
 // generates monsters from classes by giving them names and difficulty
 const goblin = new Monster('Goblin', 1, "images/goblin.png");
-const goblin2 = new Monster('Goblin', 1, "images/goblin.png");
+const goblin2 = new Monster('Goblin2', 1, "images/goblin.png");
 const orc = new Monster('Orc', 3, "images/orc.png");
-const orc2 = new Monster('Orc', 3, "images/orc.png");
+const orc2 = new Monster('Orc2', 3, "images/orc.png");
 const minotaur = new Monster('Minotaur', 4, "images/minotaur.png");
-const minotaur2 = new Monster('Minotaur', 4, "images/minotaur.png");
+const minotaur2 = new Monster('Minotaur2', 4, "images/minotaur.png");
 const mimic = new Monster('Mimic', 2, "images/mimic.png");
-const mimic2 = new Monster('Mimic', 2, "images/mimic.png");
+const mimic2 = new Monster('Mimic2', 2, "images/mimic.png");
 const slime = new Monster('Slime', 6, "images/slime.png");
-const slime2 = new Monster('Slime', 6, "images/slime.png");
+const slime2 = new Monster('Slime2', 6, "images/slime.png");
 const tortoise = new Monster('Tortoise', 5, "images/tortoise.png");
-const tortoise2 = new Monster('Tortoise', 5, "images/tortoise.png");
+const tortoise2 = new Monster('Tortoise2', 5, "images/tortoise.png");
 
 
 
@@ -225,8 +225,12 @@ function spawnMonster() {
     console.log(remainingEnemies);
     monsterName.innerHTML = currentEnemy.name;
     monsterImage.src = currentEnemy.image
+    if (remainingEnemies.length === 1) {
+    scoreCount();
+    }
 }
 
 spawnMonster();
 
 console.log(currentEnemy);
+console.log(remainingEnemies);
