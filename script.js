@@ -6,6 +6,7 @@ function diceRoll() {
 
 function scoreCount() {
     var score = player.stamina + player.health + (player.defeated * 3);
+    battleResult.innerHTML = `Your total score is ${score}!`
     return score;
 } // this is called at the end of the game or when player.health === 0
 
@@ -34,8 +35,14 @@ var player = {
     }, //uses 2 stamina to roll 2D6
 
     restoreHealth: function() {
-        this.potions --;
-        this.health++;
+        if (player.potions === 0) {
+           battleResult.innerHTML = `You don't have any potions left!`;
+           return;
+        } else {
+            this.potions --;
+            battleResult.innerHTML = `You restored 1 health!`;
+            this.health++;
+        }
 
         if (this.health > 3) {
             this.health = 3;
@@ -43,10 +50,15 @@ var player = {
     },
 
     restoreStamina: function() {
-        this.potions --;
-        var potBoost = (Math.floor(Math.random() * Math.floor(3)) + 2) //ensures minimum stam is 2, max stam is 5.
-        console.log(potBoost);
-        this.stamina+=potBoost;
+        if (player.potions === 0) {
+           battleResult.innerHTML = `You don't have any potions left!`;
+           return;
+        } else {
+            this.potions --;
+            var potBoost = (Math.floor(Math.random() * Math.floor(3)) + 2) //ensures minimum stam is 2, max stam is 5.
+            battleResult.innerHTML = `You restored ${potBoost} stamina!`;
+            this.stamina+=potBoost;
+        }
 
         if (this.stamina > 7) {
             this.stamina = 7;
