@@ -9,8 +9,12 @@ function diceRoll() {
 function scoreCount() {
     var score = player.stamina + player.health + (player.defeated * 3);
     battleResult.innerHTML = `Your total score is ${score}!`
+    attackButton.removeEventListener('click', attack);
+    speedAttackButton.removeEventListener('click', speedAttack);
+    potionButton.removeEventListener('click', potionUse);
+    staminaButton.removeEventListener('click', staminaUse);
     return score;
-} // this is called at the end of the game or when player.health === 0
+} // this is called at the end of the game or when player.health === 0, buttons cannot be clicked after game ends.
 
 
 function checkEnemies() {
@@ -34,16 +38,30 @@ var player = {
     roll: 0,
 
     attack: function() {
-        player.roll = diceRoll();
-        this.stamina--;
-        return player.roll;
-        console.log(`diceroll is ${player.roll}`);
+        if (player.stamina > 0){
+            player.roll = diceRoll();
+            this.stamina--;
+            return player.roll;
+        } else {
+            player.roll = diceRoll();
+            this.health--;
+            return player.roll;
+            player.checkDead();
+        }
     },
 
     speedAttack: function() {
-        var playerRoll = (2 * diceRoll());
-        this.stamina-=2;
-        return playerRoll;
+        if (player.stamina > 1 ) {
+            playerRoll = (2 * diceRoll());
+            this.stamina-=2;
+            return playerRoll;
+        } else {
+            playerRoll = (2 * diceRoll());
+            this.health-=2;
+            return playerRoll;
+            player.checkDead();
+        }
+
     }, //uses 2 stamina to roll 2D6
 
     restoreHealth: function() {
@@ -79,14 +97,13 @@ var player = {
 
     checkDead: function() {
         if (this.health <= 0) {
-            alert('YOU DIED!');
-            alert('you scored ' + scoreCount() + ' point!');
             var youDied = document.getElementById('title');
             youDied.innerHTML = "YOU DIED";
             youDied.style.fontSize = "100px";
             youDied.style.position = "relative";
             youDied.style.top = "300px";
             youDied.style.zIndex = "5";
+            scoreCount();
         }
     },
 
@@ -102,6 +119,7 @@ var player = {
 
 // ---------------MONSTER SECTIION------------- //
 
+var monsterDescription = document.getElementById('monster-ability');
 var battleResult = document.getElementById('battle-result');
 
 class Monster {
@@ -180,33 +198,41 @@ function playerStatsWeb() {
 
   var playerPots = document.getElementById('player-potion');
   playerPots.innerHTML = "Potions: " + player.potions;
+
+  var playerMonsters = document.getElementById('remaining-monsters');
+  playerMonsters.innerHTML = "Remaining: " + (remainingEnemies.length - 1); // game ends when there's only 1 monster left.
 } //this is run after every scene to update the screen.
 playerStatsWeb();
 
-var attackButton = document.getElementById('atk-btn');
-attackButton.addEventListener('click', function() {
+// this section buttons have a removeEventListener that's tagged to scoreCount()
+
+var attack = function() {
     currentEnemy.attack();
     playerStatsWeb();
-})
+}
+var attackButton = document.getElementById('atk-btn');
+attackButton.addEventListener('click', attack);
 
-var speedAttackButton = document.getElementById('spd-atk-btn')
-speedAttackButton.addEventListener('click', function(){
-    player.checkStamina();
+var speedAttack = function() {
     currentEnemy.speedAttack();
     playerStatsWeb();
-})
+};
+var speedAttackButton = document.getElementById('spd-atk-btn')
+speedAttackButton.addEventListener('click', speedAttack);
 
-var potionButton = document.getElementById('pot-btn');
-potionButton.addEventListener('click', function(){
+var potionUse = function() {
     player.restoreHealth();
     playerStatsWeb();
-});
+}
+var potionButton = document.getElementById('pot-btn');
+potionButton.addEventListener('click', potionUse);
 
-var staminaButton = document.getElementById('stam-btn');
-staminaButton.addEventListener('click', function() {
+var staminaUse = function() {
     player.restoreStamina();
     playerStatsWeb();
-});
+}
+var staminaButton = document.getElementById('stam-btn');
+staminaButton.addEventListener('click', staminaUse);
 
 var fleeButton = document.getElementById('flee-btn');
 fleeButton.addEventListener('click', function() {
@@ -226,6 +252,7 @@ function spawnMonster() {
     monsterName.innerHTML = currentEnemy.name;
     monsterImage.src = currentEnemy.image
     if (remainingEnemies.length === 1) {
+    monsterDescription.innerHTML = "Dungeon Cleared!";
     scoreCount();
     }
 }
