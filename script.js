@@ -112,18 +112,18 @@ class Monster {
 }
 
 // generates monsters from classes by giving them names and difficulty
-const goblin = new Monster('goblin', 1, "images/goblin.png");
-const goblin2 = new Monster('goblin', 1, "images/goblin.png");
-const orc = new Monster('orc', 3, "images/orc.png");
-const orc2 = new Monster('orc', 3, "images/orc.png");
-const minotaur = new Monster('minotaur', 4, "images/minotaur.png");
-const minotaur2 = new Monster('minotaur', 4, "images/minotaur.png");
-const mimic = new Monster('mimic', 2, "images/mimic.png");
-const mimic2 = new Monster('mimic', 2, "images/mimic.png");
-const slime = new Monster('slime', 6, "images/slime.png");
-const slime2 = new Monster('slime', 6, "images/slime.png");
-const tortoise = new Monster('tortoise', 5, "images/tortoise.png");
-const tortoise2 = new Monster('tortoise', 5, "images/tortoise.png");
+const goblin = new Monster('Goblin', 1, "images/goblin.png");
+const goblin2 = new Monster('Goblin', 1, "images/goblin.png");
+const orc = new Monster('Orc', 3, "images/orc.png");
+const orc2 = new Monster('Orc', 3, "images/orc.png");
+const minotaur = new Monster('Minotaur', 4, "images/minotaur.png");
+const minotaur2 = new Monster('Minotaur', 4, "images/minotaur.png");
+const mimic = new Monster('Mimic', 2, "images/mimic.png");
+const mimic2 = new Monster('Mimic', 2, "images/mimic.png");
+const slime = new Monster('Slime', 6, "images/slime.png");
+const slime2 = new Monster('Slime', 6, "images/slime.png");
+const tortoise = new Monster('Tortoise', 5, "images/tortoise.png");
+const tortoise2 = new Monster('Tortoise', 5, "images/tortoise.png");
 
 
 
