@@ -1,17 +1,16 @@
-console.log("hello");
 
 function diceRoll() {
     return (Math.floor(Math.random() * Math.floor(6)) + 1);
     //D6 Roll essentially. it rolls between 0 to 5, therefore you add a +1 to result;
 }
 
-
 function scoreCount() {
     var score = player.stamina + player.health + (player.defeated * 3);
     return score;
-}
+} // this is called at the end of the game or when player.health === 0
 
 
+//--------------- PLAYER CHARACTER SECTION ------------- //
 var player = {
     name: "player",
     health: 5,
@@ -32,7 +31,7 @@ var player = {
         var playerRoll = (2 * diceRoll());
         this.stamina-=2;
         return playerRoll;
-    },
+    }, //uses 2 stamina to roll 2D6
 
     restoreHealth: function() {
         this.potions --;
@@ -45,7 +44,7 @@ var player = {
 
     restoreStamina: function() {
         this.potions --;
-        var potBoost = (diceRoll()) + 2;
+        var potBoost = (Math.floor(Math.random() * Math.floor(3)) + 2) //ensures minimum stam is 2, max stam is 5.
         console.log(potBoost);
         this.stamina+=potBoost;
 
@@ -74,10 +73,10 @@ var player = {
     }
 
 };
+// -------------- END OF PLAYER CHARACTER SECTION --------------//
 
-var enemyCount = 3;
 
-
+// ---------------MONSTER SECTIION------------- //
 
 class Monster {
     constructor(name,difficulty) {
@@ -111,32 +110,32 @@ class Monster {
     }
 }
 
-const goblin = new Monster('goblin', 4);
-console.log(goblin);
-goblin.attack();
-console.log(enemyCount);
-console.log(player.health);
-console.log(player.roll);
-console.log(player.attack());
+// generates monsters from classes by giving them names and difficulty
+const goblin = new Monster('goblin', 1);
+const goblin2 = new Monster('goblin', 1);
+const orc = new Monster('orc', 3);
+const orc2 = new Monster('orc', 3);
+const minotaur = new Monster('minotaur', 4);
+const minotaur2 = new Monster('minotaur', 4);
+const mimic = new Monster('mimic', 2);
+const mimic2 = new Monster('mimic', 2);
+const slime = new Monster('slime', 6);
+const slime2 = new Monster('slime', 6);
+const tortoise = new Monster('tortoise', 5);
+const tortoise2 = new Monster('tortoise', 5);
 
 
-const orc = new Monster('orc', 13);
-const orc2 = new Monster('orc2', 3);
-const orc3 = new Monster('orc3', 14);
 
-orc.attack();
-console.log(player);
-orc2.attack();
-console.log(player);
-orc3.speedAttack();
-console.log(player);
-
-console.log(scoreCount());
-console.log(player);
-
-var enemyArray = [goblin, orc, orc2, orc3];
+var enemyArray = [goblin, goblin2, orc, orc2, minotaur, minotaur2, mimic, mimic2, slime, slime2, tortoise, tortoise2];
 console.log(enemyArray);
+var currentEnemy = enemyArray[Math.floor(Math.random() * enemyArray.length)];
+console.log(currentEnemy);
+var enemyCount = enemyArray.length;
 
+//---------------END OF MONSTER SECTION------------------//
+
+
+// --------------THIS IS BUTTON SECTIONS------------------ //
 function playerStatsWeb() {
   var playerHealth = document.getElementById('player-health');
   playerHealth.innerHTML = "Health: " + player.health;
@@ -147,18 +146,15 @@ function playerStatsWeb() {
   var playerPots = document.getElementById('player-potion');
   playerPots.innerHTML = "Potions: " + player.potions;
 } //this is run after every scene to update the screen.
-
 playerStatsWeb();
 
 var attackButton = document.getElementById('atk-btn');
-
 attackButton.addEventListener('click', function() {
     orc.attack();
     playerStatsWeb();
 })
 
 var speedAttackButton = document.getElementById('spd-atk-btn')
-
 speedAttackButton.addEventListener('click', function(){
     player.checkStamina();
     orc3.speedAttack();
@@ -166,15 +162,19 @@ speedAttackButton.addEventListener('click', function(){
 })
 
 var potionButton = document.getElementById('pot-btn');
-
 potionButton.addEventListener('click', function(){
     player.restoreHealth();
     playerStatsWeb();
 });
 
 var staminaButton = document.getElementById('stam-btn');
-
 staminaButton.addEventListener('click', function() {
     player.restoreStamina();
     playerStatsWeb();
 });
+
+var fleeButton = document.getElementById('flee-btn');
+fleeButton.addEventListener('click', function() {
+    playerStatsWeb();
+});
+//------------END OF BUTTONS SECTION------------------- //
