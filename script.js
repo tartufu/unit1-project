@@ -99,10 +99,14 @@ var player = {
         if (this.health <= 0) {
             var youDied = document.getElementById('title');
             youDied.innerHTML = "YOU DIED";
-            youDied.style.fontSize = "100px";
+            youDied.style.fontSize = "200px";
+            youDied.style.color = "red";
             youDied.style.position = "relative";
-            youDied.style.top = "300px";
+            youDied.style.top = "400px";
             youDied.style.zIndex = "5";
+            var body = document.body;
+            body.style.position = "relative";
+            body.style.bottom = "200px";  //You died Font is shifted down, body is shifted upwards
             scoreCount();
         } // this is called after every event where health is deducted, it stops the game.
     },
@@ -246,6 +250,7 @@ function spawnMonster() {
     currentEnemy = remainingEnemies[Math.floor(Math.random() * remainingEnemies.length)]; // this refactors the variable so that it only chooses from the new filtered array.
     console.log(remainingEnemies);
     monsterName.innerHTML = currentEnemy.name;
+    monsterDescription.innerHTML = `${currentEnemy.name} has a difficulty of ${currentEnemy.difficulty}`;
     monsterImage.src = currentEnemy.image
     if (remainingEnemies.length === 1) {
     monsterDescription.innerHTML = "Dungeon Cleared!";

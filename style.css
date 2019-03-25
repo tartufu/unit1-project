@@ -25,6 +25,8 @@ h1,h2 {
 h4 {
 	color: white;
 	text-align: center;
+	font-size: 32px;
+	text-shadow: 2px 2px black;
 }
 
 p {
