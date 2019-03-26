@@ -16,6 +16,12 @@ function scoreCount() {
     return score;
 } // this is called at the end of the game or when player.health === 0, buttons cannot be clicked after game ends.
 
+function monsterKilled() {
+    this.status = 'dead';
+    enemyCount--;
+    player.defeated++;
+    spawnMonster();
+}
 
 function checkEnemies() {
     remainingEnemies = enemyArray.filter(function (arr) {
@@ -46,7 +52,7 @@ function healScreen() {
 //--------------- PLAYER CHARACTER SECTION ------------- //
 var player = {
     name: "player",
-    health: 5,
+    health: 3,
     stamina: 7,
     potions: 3,
     defeated: 0,
@@ -144,33 +150,6 @@ class Monster {
         this.image = image;
         this.status = 'alive';
     }
-    // attack() {
-    //     if (player.attack() >= this.difficulty) {
-    //         battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-    //         this.status = 'dead';
-    //         enemyCount--;
-    //         player.defeated++;
-    //         spawnMonster();
-    //     } else {
-    //         battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-    //         player.health--;
-    //         player.checkDead();
-    //     }
-    // }
-
-    // speedAttack() {
-    //      if (player.speedAttack() >= this.difficulty) {
-    //         battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-    //         this.status = 'dead';
-    //         enemyCount--;
-    //         player.defeated++;
-    //         spawnMonster();
-    //     } else {
-    //         battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-    //         player.health--;
-    //         player.checkDead();
-    //     }
-    // }
 }
 
 // class Sam extends Monster{
@@ -185,10 +164,7 @@ class Monster {
 // goblin class has a bomb, roll above 4 when you defeat or - 1 health.
 class Goblin extends Monster {
         constructor(name,difficulty, image, ability) {
-        super(name);
-        this.difficulty = difficulty;
-        this.image = image;
-        this.status = "alive";
+        super(name, difficulty,image,status);
         this.ability = ability;
     }
 
@@ -230,10 +206,7 @@ class Goblin extends Monster {
 //Orc class is fast, so every attack consumes 1 extra stamina.
 class Orc extends Monster {
     constructor(name,difficulty, image, ability) {
-        super(name);
-        this.difficulty = difficulty;
-        this.image = image;
-        this.status = "alive";
+        super(name, difficulty,image,status);
         this.ability = ability;
     }
 
@@ -248,6 +221,7 @@ class Orc extends Monster {
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
             player.health--;
+            player.stamina --;
             player.checkDead();
         }
     }
@@ -263,6 +237,7 @@ class Orc extends Monster {
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
             player.health--;
+            player.stamina --;
             player.checkDead();
         }
     }
@@ -271,16 +246,12 @@ class Orc extends Monster {
 // Minotaur class is brutal, so it does 2 dmg to player health.
 class Minotaur extends Monster {
     constructor(name,difficulty, image, ability) {
-        super(name);
-        this.difficulty = difficulty;
-        this.image = image;
-        this.status = "alive";
+        super(name, difficulty,image,status);
         this.ability = ability;
     }
 
     attack() {
          if (player.attack() >= this.difficulty) {
-            player.stamina --;
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
             this.status = 'dead';
             enemyCount--;
@@ -295,7 +266,6 @@ class Minotaur extends Monster {
 
     speedAttack() {
          if (player.speedAttack() >= this.difficulty) {
-            player.stamina --;
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
             this.status = 'dead';
             enemyCount--;
@@ -312,10 +282,7 @@ class Minotaur extends Monster {
 // tortoise class is armored, so its impervious to speed attacks.
 class Tortoise extends Monster {
     constructor(name,difficulty, image, ability) {
-        super(name);
-        this.difficulty = difficulty;
-        this.image = image;
-        this.status = "alive";
+        super(name, difficulty,image,status);
         this.ability = ability;
     }
 
@@ -353,10 +320,7 @@ class Tortoise extends Monster {
 //Slime doesnt have any special abilities
 class Slime extends Monster {
     constructor(name,difficulty, image, ability) {
-        super(name);
-        this.difficulty = difficulty;
-        this.image = image;
-        this.status = "alive";
+        super(name, difficulty,image,status);
         this.ability = ability;
     }
 
@@ -391,16 +355,14 @@ class Slime extends Monster {
 
 class Mimic extends Monster {
     constructor(name,difficulty, image, ability) {
-        super(name);
-        this.difficulty = difficulty;
-        this.image = image;
-        this.status = "alive";
+        super(name, difficulty,image,status);
         this.ability = ability;
     }
 
     attack() {
          if (player.attack() >= this.difficulty) {
-            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! You found a potion! A new monster blocks your path!`;
+            player.potions++;
             this.status = 'dead';
             enemyCount--;
             player.defeated++;
@@ -414,7 +376,8 @@ class Mimic extends Monster {
 
     speedAttack() {
          if (player.speedAttack() >= this.difficulty) {
-            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! You found a potion! A new monster blocks your path!`;
+            player.potions++;
             this.status = 'dead';
             enemyCount--;
             player.defeated++;
@@ -425,41 +388,25 @@ class Mimic extends Monster {
             player.checkDead();
         }
     }
-
-    trap() {
-        if (diceRoll() < 3) {
-            battleResult.innerHTML = 'A trap! You took 1 damage!';
-            player.health --;
-        }
-    }
 }
 
-
-
-
-const fakeMonster = new Mimic('YOLO', 2, "images/goblin.png", "Bomber: Roll above 4 or suffer 1 dmg!" );
-const fakeMonster2 = new Mimic('YOLO', 2, "images/minotaur.png", "Roll above 4 or suffer 1 dmg!" );
-const fakeMonster3 = new Mimic('YOLO', 2, "images/minotaur.png", "Roll above 4 or suffer 1 dmg!" );
-
-
 // generates monsters from classes by giving them names and difficulty
-const goblin = new Monster('Goblin', 1, "images/goblin.png");
-const goblin2 = new Monster('Goblin2', 1, "images/goblin.png");
-const orc = new Monster('Orc', 3, "images/orc.png");
-const orc2 = new Monster('Orc2', 3, "images/orc.png");
-const minotaur = new Monster('Minotaur', 4, "images/minotaur.png");
-const minotaur2 = new Monster('Minotaur2', 4, "images/minotaur.png");
-const mimic = new Monster('Mimic', 2, "images/mimic.png");
-const mimic2 = new Monster('Mimic2', 2, "images/mimic.png");
-const slime = new Monster('Slime', 6, "images/slime.png");
-const slime2 = new Monster('Slime2', 6, "images/slime.png");
-const tortoise = new Monster('Tortoise', 5, "images/tortoise.png");
-const tortoise2 = new Monster('Tortoise2', 5, "images/tortoise.png");
+const goblin = new Goblin('Goblin', 1, "images/goblin.png", "Bomber: Roll above 4 or suffer 1 dmg!");
+const goblin2 = new Goblin('Goblin2', 1, "images/goblin.png", "Bomber: Roll above 4 or suffer 1 dmg!");
+const orc = new Orc('Orc', 3, "images/orc.png", "Fast: You consume 1 extra stam per attack!");
+const orc2 = new Orc('Orc2', 3, "images/orc.png", "Fast: You consume 1 extra stam per attack!");
+const minotaur = new Minotaur('Minotaur', 4, "images/minotaur.png", "Brutal: It does 2 dmg when it attacks!");
+const minotaur2 = new Minotaur('Minotaur2', 4, "images/minotaur.png", "Brutal: It does 2 dmg when it attacks");
+const mimic = new Mimic('Mimic', 6, "images/mimic.png", "Booty: A dangerous foe, but teeming with potential riches");
+const mimic2 = new Mimic('Mimic2', 6, "images/mimic.png", "Booty: A dangerous foe, but teeming with potential riches");
+const slime = new Slime('Slime', 5, "images/slime.png", "Hardy: This monster is not strong but requires effort to take down!");
+const slime2 = new Slime('Slime2', 5, "images/slime.png", "Hardy: This monster is not strong but requires effort to take down!");
+const tortoise = new Tortoise('Tortoise', 4, "images/tortoise.png", "Armored: This monster is impervious to speed attacks!");
+const tortoise2 = new Tortoise('Tortoise2', 4, "images/tortoise.png", "Armored: This monster is impervious to speed attacks!");
 
 
-// var enemyArray = [goblin, goblin2, orc, orc2, minotaur, minotaur2, mimic, mimic2, slime, slime2, tortoise, tortoise2];
+var enemyArray = [goblin, goblin2, orc, orc2, minotaur, minotaur2, mimic, mimic2, slime, slime2, tortoise, tortoise2];
 
-var enemyArray = [fakeMonster, fakeMonster2, fakeMonster3]
 var enemyCount = enemyArray.length;
 
 let remainingEnemies = enemyArray.filter(function (arr) {
@@ -548,8 +495,8 @@ function spawnMonster() {
     currentEnemy = remainingEnemies[Math.floor(Math.random() * remainingEnemies.length)]; // this refactors the variable so that it only chooses from the new filtered array.
     console.log(remainingEnemies);
     monsterName.innerHTML = currentEnemy.name;
-    // monsterDescription.innerHTML = `${currentEnemy.name} has a difficulty of ${currentEnemy.difficulty}. ${currentEnemy.ability}`; //the currentEnemy ability will show on the player screen.
-    monsterDescription.innerHTML = `${currentEnemy.name} has a difficulty of ${currentEnemy.difficulty}.`;
+    monsterDescription.innerHTML = `${currentEnemy.name} has a difficulty of ${currentEnemy.difficulty}. ${currentEnemy.ability}`; //the currentEnemy ability will show on the player screen.
+    // monsterDescription.innerHTML = `${currentEnemy.name} has a difficulty of ${currentEnemy.difficulty}.`;
 
     monsterImage.src = currentEnemy.image
     if (remainingEnemies.length === 1) {
@@ -559,9 +506,6 @@ function spawnMonster() {
     scoreCount();
     } // spawn monster is called each time a monster is killed.
 
-    if (currentEnemy = enemyArray[0]) {
-        currentEnemy.trap();
-    }
 }
 
 
