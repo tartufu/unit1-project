@@ -158,6 +158,19 @@ class Monster {
     }
 }
 
+class HyperMonster extends Monster {
+        constructor(name,difficulty, image) {
+        super(name);
+        this.difficulty = difficulty;
+        this.image = image;
+        this.status = "alive";
+    }
+}
+
+const fakeMonster = new HyperMonster('YOLO', 10, "images/goblin.png" );
+console.log(fakeMonster);
+console.log(fakeMonster.attack());
+
 // generates monsters from classes by giving them names and difficulty
 const goblin = new Monster('Goblin', 1, "images/goblin.png");
 const goblin2 = new Monster('Goblin2', 1, "images/goblin.png");
