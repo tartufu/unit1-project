@@ -181,6 +181,22 @@ class HyperMonster extends Monster {
         this.image = image;
         this.status = "alive";
     }
+
+    attack() {
+         if (player.attack() - 3 >= this.difficulty) {
+            player.roll = player.roll - 3;
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
+            player.roll = player.roll - 6;
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health--;
+            player.checkDead();
+        }
+    }
 }
 
 const fakeMonster = new HyperMonster('YOLO', 10, "images/goblin.png" );
@@ -202,7 +218,9 @@ const tortoise = new Monster('Tortoise', 5, "images/tortoise.png");
 const tortoise2 = new Monster('Tortoise2', 5, "images/tortoise.png");
 
 
-var enemyArray = [goblin, goblin2, orc, orc2, minotaur, minotaur2, mimic, mimic2, slime, slime2, tortoise, tortoise2];
+// var enemyArray = [goblin, goblin2, orc, orc2, minotaur, minotaur2, mimic, mimic2, slime, slime2, tortoise, tortoise2];
+
+var enemyArray = [fakeMonster, fakeMonster]
 var enemyCount = enemyArray.length;
 
 let remainingEnemies = enemyArray.filter(function (arr) {
