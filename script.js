@@ -32,6 +32,14 @@ function shakeScreen() {
     }, 500);
 }; //this shakes the screen, when attack buttons are pressed for more player visual impact.
 
+function healScreen() {
+    var playerImage = document.getElementById("player-image");
+    playerImage.classList.add("heal");
+    setTimeout(function() {
+        playerImage.classList.remove("heal");
+    }, 500);
+}
+
 // -------- END OF MECHANICS SECTION ---------- //
 
 
@@ -245,15 +253,16 @@ var speedAttackButton = document.getElementById('spd-atk-btn')
 var potionUse = function() {
     player.restoreHealth();
     playerStatsWeb();
-    shakeScreen();
+    healScreen();
 }
 var potionButton = document.getElementById('pot-btn');
 
 var staminaUse = function() {
     player.restoreStamina();
     playerStatsWeb();
-    shakeScreen();
+    healScreen();
 }
+
 var staminaButton = document.getElementById('stam-btn');
 
 var fleeButton = document.getElementById('flee-btn');
@@ -317,5 +326,3 @@ function gameStart() {
 }
 
 gameStart();
-
-    var body = document.querySelector(".monster-screen");
