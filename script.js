@@ -24,6 +24,14 @@ function checkEnemies() {
         } ;
     }); // this filters out enemies that are dead.
 }
+
+function shakeScreen() {
+    document.body.classList.add("shake");
+    setTimeout(function() {
+        document.body.classList.remove("shake");
+    }, 500);
+}; //this shakes the screen, when attack buttons are pressed for more player visual impact.
+
 // -------- END OF MECHANICS SECTION ---------- //
 
 
@@ -223,24 +231,28 @@ playerStatsWeb();
 var attack = function() {
     currentEnemy.attack();
     playerStatsWeb();
+    shakeScreen();
 }
 var attackButton = document.getElementById('atk-btn');
 
 var speedAttack = function() {
     currentEnemy.speedAttack();
     playerStatsWeb();
+    shakeScreen();
 };
 var speedAttackButton = document.getElementById('spd-atk-btn')
 
 var potionUse = function() {
     player.restoreHealth();
     playerStatsWeb();
+    shakeScreen();
 }
 var potionButton = document.getElementById('pot-btn');
 
 var staminaUse = function() {
     player.restoreStamina();
     playerStatsWeb();
+    shakeScreen();
 }
 var staminaButton = document.getElementById('stam-btn');
 
@@ -277,6 +289,8 @@ function spawnMonster() {
     monsterName.innerHTML = "Congrats!";
     monsterImage.src = "images/chest.png"
     scoreCount();
+
+
     } // spawn monster is called each time a monster is killed.
 }
 
@@ -285,12 +299,14 @@ function gameStart() {
     var body = document.querySelector(".monster-screen");
     var doorName = document.getElementById('monster-name');
     var doorImage = document.getElementById('monster-image');
-    var doorDescriptiom = document.getElementById('monster-ability');
+    var doorDescription = document.getElementById('monster-ability');
+    var openingText = document.getElementById('battle-result');
 
     body.style.backgroundImage = "url(images/stonewall.jpg)"
     doorName.innerHTML = "Click Door"
-    doorDescriptiom.innerHTML = "All hope abandon ye who enter here."
-    doorImage.src ="images/dungeon-door.png"
+    doorDescription.innerHTML = "All hope abandon ye who enter here."
+    doorImage.src ="images/dungeon-door.png";
+    openingText.innerHTML= "Make your way past the monsters and survive the dungeon, traveler.";
 
     doorImage.addEventListener("click", function() {
         spawnMonster();
