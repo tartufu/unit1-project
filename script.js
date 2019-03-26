@@ -174,24 +174,44 @@ class Monster {
     }
 }
 
-class HyperMonster extends Monster {
-        constructor(name,difficulty, image) {
+// goblin class has a bomb, roll above 4 when you defeat or - 1 health.
+class Goblin extends Monster {
+        constructor(name,difficulty, image, ability) {
         super(name);
         this.difficulty = difficulty;
         this.image = image;
         this.status = "alive";
+        this.ability = ability;
     }
 
     attack() {
-         if (player.attack() - 3 >= this.difficulty) {
-            player.roll = player.roll - 3;
+         if (player.attack() >= this.difficulty) {
+            if (player.roll < 4 ) {
+                player.health--;
+            };
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
             this.status = 'dead';
             enemyCount--;
             player.defeated++;
             spawnMonster();
         } else {
-            player.roll = player.roll - 6;
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health--;
+            player.checkDead();
+        }
+    }
+
+    speedAttack() {
+         if (player.speedAttack() >= this.difficulty) {
+            if (player.roll < 4 ) {
+                player.health--;
+            };
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
             player.health--;
             player.checkDead();
@@ -199,9 +219,133 @@ class HyperMonster extends Monster {
     }
 }
 
-const fakeMonster = new HyperMonster('YOLO', 10, "images/goblin.png" );
-console.log(fakeMonster);
-console.log(fakeMonster.attack());
+//Orc class is fast, so every attack consumes 1 extra stamina.
+class Orc extends Monster {
+    constructor(name,difficulty, image, ability) {
+        super(name);
+        this.difficulty = difficulty;
+        this.image = image;
+        this.status = "alive";
+        this.ability = ability;
+    }
+
+    attack() {
+         if (player.attack() >= this.difficulty) {
+            player.stamina --;
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health--;
+            player.checkDead();
+        }
+    }
+
+    speedAttack() {
+         if (player.speedAttack() >= this.difficulty) {
+            player.stamina --;
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health--;
+            player.checkDead();
+        }
+    }
+}
+
+// Minotaur class is brutal, so it does 2 dmg to player health.
+class Minotaur extends Monster {
+    constructor(name,difficulty, image, ability) {
+        super(name);
+        this.difficulty = difficulty;
+        this.image = image;
+        this.status = "alive";
+        this.ability = ability;
+    }
+
+    attack() {
+         if (player.attack() >= this.difficulty) {
+            player.stamina --;
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health-=2;
+            player.checkDead();
+        }
+    }
+
+    speedAttack() {
+         if (player.speedAttack() >= this.difficulty) {
+            player.stamina --;
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health-=2;
+            player.checkDead();
+        }
+    }
+}
+
+// tortoise class is armored, so its impervious to speed attacks.
+class Tortoise extends Monster {
+    constructor(name,difficulty, image, ability) {
+        super(name);
+        this.difficulty = difficulty;
+        this.image = image;
+        this.status = "alive";
+        this.ability = ability;
+    }
+
+    attack() {
+         if (player.attack() >= this.difficulty) {
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health-=2;
+            player.checkDead();
+        }
+    }
+
+    speedAttack() {
+         if (player.speedAttack() - 6 >= this.difficulty) {
+            player.roll = player.roll - 6;
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health-=2;
+            player.checkDead();
+        }
+    }
+}
+
+
+const fakeMonster = new Tortoise('YOLO', 4, "images/goblin.png", "Bomber: Roll above 4 or suffer 1 dmg!" );
+const fakeMonster2 = new Tortoise('YOLO', 4, "images/minotaur.png", "Roll above 4 or suffer 1 dmg!" );
+const fakeMonster3 = new Tortoise('YOLO', 4, "images/minotaur.png", "Roll above 4 or suffer 1 dmg!" );
+
 
 // generates monsters from classes by giving them names and difficulty
 const goblin = new Monster('Goblin', 1, "images/goblin.png");
@@ -218,9 +362,9 @@ const tortoise = new Monster('Tortoise', 5, "images/tortoise.png");
 const tortoise2 = new Monster('Tortoise2', 5, "images/tortoise.png");
 
 
-// var enemyArray = [goblin, goblin2, orc, orc2, minotaur, minotaur2, mimic, mimic2, slime, slime2, tortoise, tortoise2];
+var enemyArray = [goblin, goblin2, orc, orc2, minotaur, minotaur2, mimic, mimic2, slime, slime2, tortoise, tortoise2];
 
-var enemyArray = [fakeMonster, fakeMonster]
+// var enemyArray = [fakeMonster, fakeMonster2, fakeMonster3]
 var enemyCount = enemyArray.length;
 
 let remainingEnemies = enemyArray.filter(function (arr) {
@@ -309,7 +453,9 @@ function spawnMonster() {
     currentEnemy = remainingEnemies[Math.floor(Math.random() * remainingEnemies.length)]; // this refactors the variable so that it only chooses from the new filtered array.
     console.log(remainingEnemies);
     monsterName.innerHTML = currentEnemy.name;
-    monsterDescription.innerHTML = `${currentEnemy.name} has a difficulty of ${currentEnemy.difficulty}`;
+    // monsterDescription.innerHTML = `${currentEnemy.name} has a difficulty of ${currentEnemy.difficulty}. ${currentEnemy.ability}`; //the currentEnemy ability will show on the player screen.
+    monsterDescription.innerHTML = `${currentEnemy.name} has a difficulty of ${currentEnemy.difficulty}.`;
+
     monsterImage.src = currentEnemy.image
     if (remainingEnemies.length === 1) {
     monsterDescription.innerHTML = "Dungeon Cleared!";
