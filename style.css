@@ -81,7 +81,7 @@ button:hover {
 
 .player-icon {
 	text-align: center;
-	background-image: url(images/dungeon-bg.jpg);
+	background-image: url(images/char-bg.png);
 	background-repeat: no-repeat;
 	background-position: center;
   background-size: fill;

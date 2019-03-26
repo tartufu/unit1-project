@@ -278,10 +278,13 @@ function gameStart() {
     doorName.innerHTML = "Click Door"
     doorDescriptiom.innerHTML = "All hope abandon ye who enter here."
     doorImage.src ="images/dungeon-door.png"
+
     doorImage.addEventListener("click", function() {
         spawnMonster();
-    })
-   // spawnMonster();
+    }, { once: true });
+//this only allows the thing to run once, so you cannot create multiple X.
+// for reference, https://stackoverflow.com/questions/28610365/how-can-i-add-an-event-for-a-one-time-click-to-a-function
+
 }
 
 gameStart();
