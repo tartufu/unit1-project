@@ -484,7 +484,7 @@ function gameStart() {
 
     body.style.backgroundImage = "url(images/stonewall.jpg)"
     doorName.innerHTML = "Click Door"
-    doorDescription.innerHTML = "All hope abandon ye who enter here."
+    doorDescription.innerHTML = "Roll equal or higher than monster difficulty to defeat them."
     doorImage.src ="images/dungeon-door.png";
     openingText.innerHTML= "Make your way past the monsters and survive the dungeon, traveler.";
 
