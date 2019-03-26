@@ -23,6 +23,11 @@ function monsterKilled() {
     spawnMonster();
 }
 
+function attackFailed() {
+    player.health--;
+    player.checkDead();
+}
+
 function checkEnemies() {
     remainingEnemies = enemyArray.filter(function (arr) {
         if (arr.status === 'alive') {
@@ -80,7 +85,7 @@ var player = {
         } else {
             player.roll = (2 * diceRoll());
             this.health-=2;
-            return player.rolll;
+            return player.roll;
             player.checkDead();
         } // if there's not enough stam, player uses health as resource
 
@@ -152,19 +157,9 @@ class Monster {
     }
 }
 
-// class Sam extends Monster{
-//     constructor(name,difficulty,image){
-//         super(name,difficulty)
-//         this.image2=image;
-//     }
-// }
-
-// let steve = new Sam("sad",3,"fwefw")
-// console.log(steve)
-// goblin class has a bomb, roll above 4 when you defeat or - 1 health.
 class Goblin extends Monster {
         constructor(name,difficulty, image, ability) {
-        super(name, difficulty,image,status);
+        super(name, difficulty,image,status); //super inherits from its parent class.
         this.ability = ability;
     }
 
@@ -172,16 +167,13 @@ class Goblin extends Monster {
          if (player.attack() >= this.difficulty) {
             if (player.roll < 4 ) {
                 player.health--;
+                player.checkDead();
             };
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
+            monsterKilled();
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
-            player.checkDead();
+            attackFailed();
         }
     }
 
@@ -191,14 +183,12 @@ class Goblin extends Monster {
                 player.health--;
             };
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
+            monsterKilled()
+
             spawnMonster();
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
-            player.checkDead();
+            attackFailed();
         }
     }
 }
@@ -214,15 +204,13 @@ class Orc extends Monster {
          if (player.attack() >= this.difficulty) {
             player.stamina --;
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
+            monsterKilled()
+
             spawnMonster();
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
             player.stamina --;
-            player.checkDead();
+            attackFailed();
         }
     }
 
@@ -230,15 +218,12 @@ class Orc extends Monster {
          if (player.speedAttack() >= this.difficulty) {
             player.stamina --;
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
+            monsterKilled()
+
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
             player.stamina --;
-            player.checkDead();
+            attackFailed();
         }
     }
 }
@@ -253,28 +238,24 @@ class Minotaur extends Monster {
     attack() {
          if (player.attack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
+            monsterKilled()
+
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 2 damage!`;
-            player.health-=2;
-            player.checkDead();
+            player.health--;
+            attackFailed();
         }
     }
 
     speedAttack() {
          if (player.speedAttack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
+            monsterKilled()
+
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 2 damage!`;
-            player.health-=2;
-            player.checkDead();
+            player.health--;
+            attackFailed();
         }
     }
 }
@@ -290,13 +271,11 @@ class Tortoise extends Monster {
          if (player.attack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
             this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
+            monsterKilled()
+
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
-            player.checkDead();
+            attackFailed();
         }
     }
 
@@ -304,15 +283,12 @@ class Tortoise extends Monster {
          if (player.speedAttack() - 12 >= this.difficulty) {
             player.roll = player.roll - 12;
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
+            monsterKilled()
+
         } else {
             player.roll = player.roll - 12;
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
-            player.checkDead();
+            attackFailed();
         }
     }
 }
@@ -327,28 +303,22 @@ class Slime extends Monster {
     attack() {
          if (player.attack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
+            monsterKilled()
+
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
-            player.checkDead();
+            attackFailed();
         }
     }
 
     speedAttack() {
          if (player.speedAttack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
+            monsterKilled()
+
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
-            player.checkDead();
+            attackFailed();
         }
     }
 }
@@ -363,14 +333,11 @@ class Mimic extends Monster {
          if (player.attack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! You found a potion! A new monster blocks your path!`;
             player.potions++;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
+            monsterKilled()
+
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
-            player.checkDead();
+            attackFailed();
         }
     }
 
@@ -378,14 +345,11 @@ class Mimic extends Monster {
          if (player.speedAttack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! You found a potion! A new monster blocks your path!`;
             player.potions++;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
+            monsterKilled()
+
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
-            player.checkDead();
+            attackFailed();
         }
     }
 }
