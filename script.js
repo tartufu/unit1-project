@@ -138,42 +138,50 @@ var battleResult = document.getElementById('battle-result');
 
 // this is the blue print for the monsters in the dungeon
 class Monster {
-    constructor(name,difficulty, image) {
+    constructor(name,difficulty, image,dmg) {
         this.name = name;
         this.difficulty = difficulty;
         this.image = image;
         this.status = 'alive';
     }
+    // attack() {
+    //     if (player.attack() >= this.difficulty) {
+    //         battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+    //         this.status = 'dead';
+    //         enemyCount--;
+    //         player.defeated++;
+    //         spawnMonster();
+    //     } else {
+    //         battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+    //         player.health--;
+    //         player.checkDead();
+    //     }
+    // }
 
-    attack() {
-        if (player.attack() >= this.difficulty) {
-            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
-        } else {
-            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
-            player.checkDead();
-        }
-    }
-
-    speedAttack() {
-         if (player.speedAttack() >= this.difficulty) {
-            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            this.status = 'dead';
-            enemyCount--;
-            player.defeated++;
-            spawnMonster();
-        } else {
-            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health--;
-            player.checkDead();
-        }
-    }
+    // speedAttack() {
+    //      if (player.speedAttack() >= this.difficulty) {
+    //         battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+    //         this.status = 'dead';
+    //         enemyCount--;
+    //         player.defeated++;
+    //         spawnMonster();
+    //     } else {
+    //         battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+    //         player.health--;
+    //         player.checkDead();
+    //     }
+    // }
 }
 
+// class Sam extends Monster{
+//     constructor(name,difficulty,image){
+//         super(name,difficulty)
+//         this.image2=image;
+//     }
+// }
+
+// let steve = new Sam("sad",3,"fwefw")
+// console.log(steve)
 // goblin class has a bomb, roll above 4 when you defeat or - 1 health.
 class Goblin extends Monster {
         constructor(name,difficulty, image, ability) {
@@ -279,7 +287,7 @@ class Minotaur extends Monster {
             player.defeated++;
             spawnMonster();
         } else {
-            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 2 damage!`;
             player.health-=2;
             player.checkDead();
         }
@@ -294,7 +302,7 @@ class Minotaur extends Monster {
             player.defeated++;
             spawnMonster();
         } else {
-            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 2 damage!`;
             player.health-=2;
             player.checkDead();
         }
@@ -320,14 +328,40 @@ class Tortoise extends Monster {
             spawnMonster();
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health-=2;
+            player.health--;
             player.checkDead();
         }
     }
 
     speedAttack() {
-         if (player.speedAttack() - 6 >= this.difficulty) {
-            player.roll = player.roll - 6;
+         if (player.speedAttack() - 12 >= this.difficulty) {
+            player.roll = player.roll - 12;
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
+            player.roll = player.roll - 12;
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health--;
+            player.checkDead();
+        }
+    }
+}
+
+//Slime doesnt have any special abilities
+class Slime extends Monster {
+    constructor(name,difficulty, image, ability) {
+        super(name);
+        this.difficulty = difficulty;
+        this.image = image;
+        this.status = "alive";
+        this.ability = ability;
+    }
+
+    attack() {
+         if (player.attack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
             this.status = 'dead';
             enemyCount--;
@@ -335,16 +369,77 @@ class Tortoise extends Monster {
             spawnMonster();
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
-            player.health-=2;
+            player.health--;
+            player.checkDead();
+        }
+    }
+
+    speedAttack() {
+         if (player.speedAttack() >= this.difficulty) {
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health--;
             player.checkDead();
         }
     }
 }
 
+class Mimic extends Monster {
+    constructor(name,difficulty, image, ability) {
+        super(name);
+        this.difficulty = difficulty;
+        this.image = image;
+        this.status = "alive";
+        this.ability = ability;
+    }
 
-const fakeMonster = new Tortoise('YOLO', 4, "images/goblin.png", "Bomber: Roll above 4 or suffer 1 dmg!" );
-const fakeMonster2 = new Tortoise('YOLO', 4, "images/minotaur.png", "Roll above 4 or suffer 1 dmg!" );
-const fakeMonster3 = new Tortoise('YOLO', 4, "images/minotaur.png", "Roll above 4 or suffer 1 dmg!" );
+    attack() {
+         if (player.attack() >= this.difficulty) {
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health--;
+            player.checkDead();
+        }
+    }
+
+    speedAttack() {
+         if (player.speedAttack() >= this.difficulty) {
+            battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.defeated++;
+            spawnMonster();
+        } else {
+            battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
+            player.health--;
+            player.checkDead();
+        }
+    }
+
+    trap() {
+        if (diceRoll() < 3) {
+            battleResult.innerHTML = 'A trap! You took 1 damage!';
+            player.health --;
+        }
+    }
+}
+
+
+
+
+const fakeMonster = new Mimic('YOLO', 2, "images/goblin.png", "Bomber: Roll above 4 or suffer 1 dmg!" );
+const fakeMonster2 = new Mimic('YOLO', 2, "images/minotaur.png", "Roll above 4 or suffer 1 dmg!" );
+const fakeMonster3 = new Mimic('YOLO', 2, "images/minotaur.png", "Roll above 4 or suffer 1 dmg!" );
 
 
 // generates monsters from classes by giving them names and difficulty
@@ -362,9 +457,9 @@ const tortoise = new Monster('Tortoise', 5, "images/tortoise.png");
 const tortoise2 = new Monster('Tortoise2', 5, "images/tortoise.png");
 
 
-var enemyArray = [goblin, goblin2, orc, orc2, minotaur, minotaur2, mimic, mimic2, slime, slime2, tortoise, tortoise2];
+// var enemyArray = [goblin, goblin2, orc, orc2, minotaur, minotaur2, mimic, mimic2, slime, slime2, tortoise, tortoise2];
 
-// var enemyArray = [fakeMonster, fakeMonster2, fakeMonster3]
+var enemyArray = [fakeMonster, fakeMonster2, fakeMonster3]
 var enemyCount = enemyArray.length;
 
 let remainingEnemies = enemyArray.filter(function (arr) {
@@ -460,12 +555,16 @@ function spawnMonster() {
     if (remainingEnemies.length === 1) {
     monsterDescription.innerHTML = "Dungeon Cleared!";
     monsterName.innerHTML = "Congrats!";
-    monsterImage.src = "images/chest.png"
+    monsterImage.src = "images/chest.png";
     scoreCount();
-
-
     } // spawn monster is called each time a monster is killed.
+
+    if (currentEnemy = enemyArray[0]) {
+        currentEnemy.trap();
+    }
 }
+
+
 
 function gameStart() {
     // recycled monster container for door.
