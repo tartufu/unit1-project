@@ -205,34 +205,31 @@ function playerStatsWeb() {
 playerStatsWeb();
 
 // this section buttons have a removeEventListener that's tagged to scoreCount()
+// this section buttons havec an addEventListener that's tagged to spawnmonster();
 
 var attack = function() {
     currentEnemy.attack();
     playerStatsWeb();
 }
 var attackButton = document.getElementById('atk-btn');
-attackButton.addEventListener('click', attack);
 
 var speedAttack = function() {
     currentEnemy.speedAttack();
     playerStatsWeb();
 };
 var speedAttackButton = document.getElementById('spd-atk-btn')
-speedAttackButton.addEventListener('click', speedAttack);
 
 var potionUse = function() {
     player.restoreHealth();
     playerStatsWeb();
 }
 var potionButton = document.getElementById('pot-btn');
-potionButton.addEventListener('click', potionUse);
 
 var staminaUse = function() {
     player.restoreStamina();
     playerStatsWeb();
 }
 var staminaButton = document.getElementById('stam-btn');
-staminaButton.addEventListener('click', staminaUse);
 
 var fleeButton = document.getElementById('flee-btn');
 fleeButton.addEventListener('click', function() {
@@ -244,6 +241,16 @@ fleeButton.addEventListener('click', function() {
 //------------GAME STARTING ------------//
 
 function spawnMonster() {
+
+    // the game buttons are here due to start screen, these buttons will only work once player clicks the door.
+    attackButton.addEventListener('click', attack);
+    speedAttackButton.addEventListener('click', speedAttack);
+    potionButton.addEventListener('click', potionUse);
+    staminaButton.addEventListener('click', staminaUse);
+
+    var body = document.querySelector(".monster-screen");
+    body.style.backgroundImage = "url(images/dungeon-bg.jpg)"
+    // this changes the background to inner dungeon bg once door is clicked.
     var monsterName = document.getElementById('monster-name');
     var monsterImage = document.getElementById('monster-image');
     checkEnemies();
@@ -260,4 +267,23 @@ function spawnMonster() {
     } // spawn monster is called each time a monster is killed.
 }
 
-spawnMonster();
+function gameStart() {
+    // recycled monster container for door.
+    var body = document.querySelector(".monster-screen");
+    var doorName = document.getElementById('monster-name');
+    var doorImage = document.getElementById('monster-image');
+    var doorDescriptiom = document.getElementById('monster-ability');
+
+    body.style.backgroundImage = "url(images/stonewall.jpg)"
+    doorName.innerHTML = "Click Door"
+    doorDescriptiom.innerHTML = "All hope abandon ye who enter here."
+    doorImage.src ="images/dungeon-door.png"
+    doorImage.addEventListener("click", function() {
+        spawnMonster();
+    })
+   // spawnMonster();
+}
+
+gameStart();
+
+    var body = document.querySelector(".monster-screen");

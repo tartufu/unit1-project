@@ -38,6 +38,7 @@ p {
 
 button:hover {
 	background-color: blue;
+	color: white;
 }
 
 .battle-stats p {
