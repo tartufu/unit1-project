@@ -172,6 +172,7 @@ class Monster {
             player.roll = diceRoll();
             battleResult.innerHTML = `You failed to escape! You suffer 1 point of damage!`
             player.health--;
+            player.checkDead();
         }
     }
 }
@@ -203,6 +204,7 @@ class Goblin extends Monster {
          if (player.speedAttack() >= this.difficulty) {
             if (player.roll < 4 ) {
                 player.health--;
+                player.checkDead();
             };
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
                 this.status = 'dead';
