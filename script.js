@@ -7,7 +7,7 @@ function diceRoll() {
 }
 
 function scoreCount() {
-    var score = player.stamina + player.health + (player.defeated * 3);
+    var score = player.stamina + player.health + (player.defeated * 3) + (player.potions * 2);
     battleResult.innerHTML = `Your total score is ${score}!`
     attackButton.removeEventListener('click', attack);
     speedAttackButton.removeEventListener('click', speedAttack);
@@ -155,6 +155,20 @@ class Monster {
         this.image = image;
         this.status = 'alive';
     }
+
+    flee() {
+        if (diceRoll() > 3) {
+            battleResult.innerHTML = `You successfully escape! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.stamina --;
+            spawnMonster();
+        } else {
+            player.roll = diceRoll();
+            battleResult.innerHTML = `You failed to escape! You suffer 1 point of damage!`
+            player.health--;
+        }
+    }
 }
 
 class Goblin extends Monster {
@@ -170,7 +184,10 @@ class Goblin extends Monster {
                 player.checkDead();
             };
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            monsterKilled();
+                this.status = 'dead';
+                enemyCount--;
+                player.defeated++;
+                spawnMonster();
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
             attackFailed();
@@ -183,9 +200,10 @@ class Goblin extends Monster {
                 player.health--;
             };
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            monsterKilled()
-
-            spawnMonster();
+                this.status = 'dead';
+                enemyCount--;
+                player.defeated++;
+                spawnMonster();
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
             attackFailed();
@@ -204,9 +222,10 @@ class Orc extends Monster {
          if (player.attack() >= this.difficulty) {
             player.stamina --;
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            monsterKilled()
-
-            spawnMonster();
+                this.status = 'dead';
+                enemyCount--;
+                player.defeated++;
+                spawnMonster();
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
             player.stamina --;
@@ -238,7 +257,10 @@ class Minotaur extends Monster {
     attack() {
          if (player.attack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            monsterKilled()
+                this.status = 'dead';
+                enemyCount--;
+                player.defeated++;
+                spawnMonster();
 
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 2 damage!`;
@@ -250,7 +272,10 @@ class Minotaur extends Monster {
     speedAttack() {
          if (player.speedAttack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            monsterKilled()
+                this.status = 'dead';
+                enemyCount--;
+                player.defeated++;
+                spawnMonster();
 
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 2 damage!`;
@@ -271,7 +296,10 @@ class Tortoise extends Monster {
          if (player.attack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
             this.status = 'dead';
-            monsterKilled()
+                this.status = 'dead';
+                enemyCount--;
+                player.defeated++;
+                spawnMonster();
 
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
@@ -283,13 +311,24 @@ class Tortoise extends Monster {
          if (player.speedAttack() - 12 >= this.difficulty) {
             player.roll = player.roll - 12;
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            monsterKilled()
+                this.status = 'dead';
+                enemyCount--;
+                player.defeated++;
+                spawnMonster();
 
         } else {
             player.roll = player.roll - 12;
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
             attackFailed();
         }
+    }
+
+    flee() {
+            battleResult.innerHTML = `You successfully escape! A new monster blocks your path!`;
+            this.status = 'dead';
+            enemyCount--;
+            player.stamina --;
+            spawnMonster();
     }
 }
 
@@ -303,7 +342,10 @@ class Slime extends Monster {
     attack() {
          if (player.attack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            monsterKilled()
+                this.status = 'dead';
+                enemyCount--;
+                player.defeated++;
+                spawnMonster();
 
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
@@ -314,7 +356,10 @@ class Slime extends Monster {
     speedAttack() {
          if (player.speedAttack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! A new monster blocks your path!`;
-            monsterKilled()
+                this.status = 'dead';
+                enemyCount--;
+                player.defeated++;
+                spawnMonster();
 
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
@@ -333,7 +378,10 @@ class Mimic extends Monster {
          if (player.attack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! You found a potion! A new monster blocks your path!`;
             player.potions++;
-            monsterKilled()
+                this.status = 'dead';
+                enemyCount--;
+                player.defeated++;
+                spawnMonster();
 
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
@@ -345,7 +393,10 @@ class Mimic extends Monster {
          if (player.speedAttack() >= this.difficulty) {
             battleResult.innerHTML = `You rolled a ${player.roll}! ${this.name} defeated! You found a potion! A new monster blocks your path!`;
             player.potions++;
-            monsterKilled()
+                this.status = 'dead';
+                enemyCount--;
+                player.defeated++;
+                spawnMonster();
 
         } else {
             battleResult.innerHTML = `You rolled a ${player.roll} but failed to defeat it! You took 1 damage!`;
@@ -430,13 +481,14 @@ var staminaUse = function() {
     playerStatsWeb();
     healScreen();
 }
-
 var staminaButton = document.getElementById('stam-btn');
 
-var fleeButton = document.getElementById('flee-btn');
-fleeButton.addEventListener('click', function() {
+var fleeRoll = function() {
+    console.log("TEST");
+    currentEnemy.flee();
     playerStatsWeb();
-});
+}
+var fleeButton = document.getElementById('flee-btn');
 //------------END OF BUTTONS SECTION------------------- //
 
 
@@ -449,6 +501,7 @@ function spawnMonster() {
     speedAttackButton.addEventListener('click', speedAttack);
     potionButton.addEventListener('click', potionUse);
     staminaButton.addEventListener('click', staminaUse);
+    fleeButton.addEventListener('click', fleeRoll);
 
     var body = document.querySelector(".monster-screen");
     body.style.backgroundImage = "url(images/dungeon-bg.jpg)"
