@@ -72,7 +72,6 @@ var player = {
         } else {
             player.roll = diceRoll();
             this.health--;
-            return player.roll;
             player.checkDead();
         } // if there's not enough stam, player uses health as resource
     },
@@ -85,7 +84,6 @@ var player = {
         } else {
             player.roll = (2 * diceRoll());
             this.health-=2;
-            return player.roll;
             player.checkDead();
         } // if there's not enough stam, player uses health as resource
 
