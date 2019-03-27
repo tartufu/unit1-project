@@ -10,9 +10,9 @@
 </head>
 <body>
     <!-- BACKGROUND MUSIC -->
-    <audio autoplay loop> <source src="audio/battle1.mp3" type="audio"> </audio>
+<!--     <audio autoplay loop> <source src="audio/battle1.mp3" type="audio"> </audio>
     <iframe src="audio/battle1.mp3" allow="autoplay loop" style="display:none" id="iframeAudio"> </iframe>
-    <!-- the iframe is required for Chrome for some reason -->
+ -->    <!-- the iframe is required for Chrome for some reason -->
 
     <div class="container"> <!-- Container to host the play area -->
         <h1 id="title"> DUNGEON DRAW</h1>
@@ -41,20 +41,21 @@
             </div>
 
             <div class="col-12 battle-stats">
+                <br>
                 <p id="monster-ability">THIS IS THE MONSTER DESCRIPTION</p>
                 <p id="battle-result">Make your way past the monsters and survive the dungeon, traveler.</p>
             </div>
         </div>
 
         <div class="row"> <!-- buttons for battle choices -->
-            <button class='col-6' id="atk-btn">Attack (Rolls a Dice) 🎲</button>
-            <button class='col-6' id="spd-atk-btn">Speed Attack (Rolls 2 Dice) 🎲🎲</button>
-            <button class='col-4' id="pot-btn">Restore 1 Health ❤️</button>
-            <button class='col-4' id="stam-btn">Restore 2-4 Stamina ⚡</button>
-            <button class='col-4' id="flee-btn">FLEE 👟</button>
+            <button class='col-6' id="atk-btn">Attack (Rolls a Dice) 🎲 -> Minus ⚡ </button>
+            <button class='col-6' id="spd-atk-btn">Speed Attack (Rolls 2 Dice) 🎲🎲 -> Minus ⚡⚡ </button>
+            <button class='col-4' id="pot-btn">Restore 1 Health ❤️ -> Minus 🧪</button>
+            <button class='col-4' id="stam-btn">Restore 2-4 Stamina ⚡ -> Minus 🧪</button>
+            <button class='col-4' id="flee-btn">FLEE 👟 Minus -> ⚡/❤️ </button>
         </div>
     </div> <!-- end of container section -->
-
+<br>
 
 <!-- SCRIPTS SECTION -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -62,4 +63,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="script.js"></script>
 </body>
+
+<footer>
+    <p>Made By Chang Hao 2019</p>
+    <p>Special Thanks to Alisha Volkman and Crystal Kim for use of artwork resources in this game.</p>
+</footer>
+
+
 </html>

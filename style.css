@@ -34,6 +34,7 @@ p {
 	color: white;
 	font-family: 'Lalezar', cursive;
 	text-shadow: 2px 2px black;
+	line-height: 10px;
 }
 
 button {
@@ -137,4 +138,10 @@ button:hover {
 	background-color: green;
 	z-index: 100;
 	opacity: 0.8;
+}
+
+footer {
+	background-color: teal;
+	text-align: center;
+	padding: 8px;
 }

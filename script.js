@@ -141,6 +141,11 @@ var player = {
 };
 // -------------- END OF PLAYER CHARACTER SECTION --------------//
 
+            // var youDied = document.createElement("h1");
+            // youDied.classList.add("class");
+            // var title = document.getElementById('title');
+            // title.appendChild(youDied);
+
 
 // ---------------MONSTER SECTIION------------- //
 
@@ -456,6 +461,8 @@ playerStatsWeb();
 // this section buttons havec an addEventListener that's tagged to spawnmonster();
 
 var attack = function() {
+    var diceSound = new Audio("audio/d6.mp3");
+    diceSound.play();
     currentEnemy.attack();
     playerStatsWeb();
     shakeScreen();
@@ -463,6 +470,8 @@ var attack = function() {
 var attackButton = document.getElementById('atk-btn');
 
 var speedAttack = function() {
+    var diceSound2 = new Audio("audio/2d6.wav");
+    diceSound2.play();
     currentEnemy.speedAttack();
     playerStatsWeb();
     shakeScreen();
