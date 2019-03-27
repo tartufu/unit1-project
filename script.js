@@ -479,6 +479,8 @@ var speedAttack = function() {
 var speedAttackButton = document.getElementById('spd-atk-btn')
 
 var potionUse = function() {
+    var potSound = new Audio("audio/heal.wav");
+    potSound.play();
     player.restoreHealth();
     playerStatsWeb();
     healScreen();
@@ -486,6 +488,8 @@ var potionUse = function() {
 var potionButton = document.getElementById('pot-btn');
 
 var staminaUse = function() {
+    var potSound = new Audio("audio/heal.wav");
+    potSound.play();
     player.restoreStamina();
     playerStatsWeb();
     healScreen();
@@ -493,7 +497,8 @@ var staminaUse = function() {
 var staminaButton = document.getElementById('stam-btn');
 
 var fleeRoll = function() {
-    console.log("TEST");
+    var runSound = new Audio("audio/run.wav");
+    runSound.play();
     currentEnemy.flee();
     playerStatsWeb();
 }
@@ -551,6 +556,8 @@ function gameStart() {
     openingText.innerHTML= "Make your way past the monsters and survive the dungeon, traveler.";
 
     doorImage.addEventListener("click", function() {
+        var doorSound = new Audio("audio/door.mp3");
+        doorSound.play();
         spawnMonster();
     }, { once: true });
 //this only allows the thing to run once, so you cannot create multiple X.
