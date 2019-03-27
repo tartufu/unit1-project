@@ -99,6 +99,17 @@ button:hover {
 	top: 16px;
 }
 
+.player-screen {
+	background-image: url(images/star.jpg);
+	background-repeat: repeat;
+}
+
+.battle-stats {
+	background-image: url(images/wood2.jpg);
+	background-repeat: repeat;
+	text-shadow: 2px 2px black;
+}
+
 .shake {
   /* Start the shake animation and make the animation last for 0.5 seconds */
   animation: shake 0.5s;
