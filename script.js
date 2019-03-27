@@ -439,16 +439,16 @@ var currentEnemy = remainingEnemies[Math.floor(Math.random() * remainingEnemies.
 // --------------THIS IS BUTTON SECTIONS------------------ //
 function playerStatsWeb() {
   var playerHealth = document.getElementById('player-health');
-  playerHealth.innerHTML = "Health: " + player.health;
+  playerHealth.innerHTML = "❤️ Health: " + player.health;
 
   var playerStamina = document.getElementById('player-stamina');
-  playerStamina.innerHTML = "Stamina: " + player.stamina;
+  playerStamina.innerHTML = "⚡ Stamina: " + player.stamina;
 
   var playerPots = document.getElementById('player-potion');
-  playerPots.innerHTML = "Potions: " + player.potions;
+  playerPots.innerHTML = "🧪 Potions: " + player.potions;
 
   var playerMonsters = document.getElementById('remaining-monsters');
-  playerMonsters.innerHTML = "Remaining: " + (remainingEnemies.length - 1); // game ends when there's only 1 monster left.
+  playerMonsters.innerHTML = "👹 Enemies: " + (remainingEnemies.length - 1); // game ends when there's only 1 monster left.
 } //this is run after every scene to update the screen.
 playerStatsWeb();
 
