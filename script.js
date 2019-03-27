@@ -450,7 +450,7 @@ function playerStatsWeb() {
   playerStamina.innerHTML = "⚡ Stamina: " + player.stamina;
 
   var playerPots = document.getElementById('player-potion');
-  playerPots.innerHTML = "🧪 Potions: " + player.potions;
+  playerPots.innerHTML = "⚗️ Potions: " + player.potions;
 
   var playerMonsters = document.getElementById('remaining-monsters');
   playerMonsters.innerHTML = "👹 Enemies: " + (remainingEnemies.length - 1); // game ends when there's only 1 monster left.
