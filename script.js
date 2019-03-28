@@ -101,6 +101,7 @@ var player = {
 
         if (this.health > 3) {
             this.health = 3;
+            //this.health = Math.min(++this.health, 3) alternate
         } //this sets a max cap on health
     },
 
